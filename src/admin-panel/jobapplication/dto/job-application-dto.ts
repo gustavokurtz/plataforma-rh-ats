@@ -1,5 +1,4 @@
 import { IsString, IsEmail, IsOptional, IsNotEmpty, IsNumber, IsUrl } from 'class-validator';
-import { OmitType, PartialType } from '@nestjs/mapped-types';
 import { ApplicationStatus } from '../../../../generated/prisma';
 
 export class CreateJobApplicationDto {
@@ -29,10 +28,15 @@ export class UpdateJobApplicationDto {
   status?: ApplicationStatus;
 }
 
-export class JobApplicationResponseDto extends OmitType(CreateJobApplicationDto, [] as const) {
+export interface JobApplicationResponseDto {
   id: number;
-  status: ApplicationStatus;
+  jobId: number;
   candidateId: number;
+  status: ApplicationStatus;
+  candidateName: string;
+  candidateEmail: string;
+  candidatePhone?: string;
+  candidateResume?: string;
   appliedAt: Date;
   updatedAt: Date;
 }
