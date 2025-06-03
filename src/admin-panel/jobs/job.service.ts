@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class AdminpanelService {
+export class JobService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createJobPosition(createJobDto: CreateJobDto){
