@@ -47,6 +47,12 @@ model JobApplication {
   appliedAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
+  // Dados do candidato no momento da aplicação
+  candidateName    String    // Mantemos o nome usado na aplicação
+  candidateEmail   String    // Mantemos o email usado na aplicação
+  candidatePhone   String?   // Opcional
+  candidateResume  String?   // Opcional
+
   @@unique([jobId, candidateId]) // Prevent duplicate applications
 }
 
