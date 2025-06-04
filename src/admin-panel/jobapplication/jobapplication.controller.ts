@@ -7,6 +7,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { JobapplicationService } from './jobapplication.service';
 import { CreateJobApplicationDto, JobApplicationResponseDto } from './dto/job-application-dto';
 import { Express, Response } from 'express'; // Importe Response de express
+import { ResumeAnalysisDto } from './dto/resume-analysis.dto'; // Importe seu DTO
+
 
 @Controller('job-application') // Se sua API tiver um prefixo global como /api, a URL final será /api/job-application
 export class JobapplicationController {
@@ -48,11 +50,23 @@ export class JobapplicationController {
     };
   }
 
-  // ... (Endpoint de download virá aqui abaixo)
-  @Get(':id/resume') // Rota: GET /job-application/:id/resume
+  @Get(':id/resume-analysis') // Rota: GET /job-application/:id/resume-analysis
+  async getResumeAnalysis(
+    @Param('id', ParseIntPipe) applicationId: number,
+  ): Promise<ResumeAnalysisDto> { // Retorna o DTO de análise
+    const analysis = await this.jobapplicationService.analyzeResumeByApplicationId(applicationId);
+
+    if (!analysis) {
+      throw new NotFoundException(`Análise de currículo não pôde ser gerada ou currículo não encontrado para a candidatura ID ${applicationId}.`);
+    }
+    return analysis;
+  }
+
+  // SEU MÉTODO downloadResume EXISTENTE:
+  @Get(':id/resume')
   async downloadResume(
     @Param('id', ParseIntPipe) applicationId: number,
-    @Res() res: Response, // Injeta o objeto de resposta do Express
+    @Res() res: Response,
   ) {
     const resumeData = await this.jobapplicationService.getResumeByApplicationId(applicationId);
 
@@ -60,12 +74,9 @@ export class JobapplicationController {
       throw new NotFoundException(`Currículo não encontrado para a candidatura ID ${applicationId}.`);
     }
 
-    // Define um nome de arquivo para o download
     const filename = `curriculo_${resumeData.candidateName.replace(/\s+/g, '_')}_appID${applicationId}.pdf`;
-
     res.setHeader('Content-Type', 'application/pdf');
-    // Content-Disposition: 'attachment' força o download. 'inline' tenta exibir no navegador.
-    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`); 
-    res.send(resumeData.resumeBuffer); // Envia os bytes do PDF
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.send(resumeData.resumeBuffer);
   }
 }

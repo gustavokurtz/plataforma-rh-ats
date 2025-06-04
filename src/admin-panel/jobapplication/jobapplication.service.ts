@@ -2,6 +2,8 @@ import { Injectable, ConflictException, NotFoundException } from '@nestjs/common
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateJobApplicationDto } from './dto/job-application-dto';
 import { Prisma } from 'generated/prisma';
+import * as pdfParse from 'pdf-parse'; // Importe a biblioteca
+import { ResumeAnalysisDto } from './dto/resume-analysis.dto'; // Importe seu DTO
 
 
 @Injectable()
@@ -101,4 +103,46 @@ export class JobapplicationService {
         candidateName: application.candidateName
      };
     } 
+
+
+    async analyzeResumeByApplicationId(applicationId: number): Promise<ResumeAnalysisDto | null> {
+    const resumeData = await this.getResumeByApplicationId(applicationId); // Reutiliza o método que busca o buffer
+
+    if (!resumeData || !resumeData.resumeBuffer) {
+      return null;
+    }
+
+    try {
+      const pdfData = await pdfParse(resumeData.resumeBuffer);
+      const extractedText = pdfData.text;
+
+      // Análise super simples: encontrar algumas palavras-chave
+      const keywordsToFind = ['javascript', 'typescript', 'react', 'node.js', 'nestjs', 'prisma', 'sql', 'liderança', 'gestão'];
+      const foundKeywords: string[] = [];
+      const lowerCaseText = extractedText.toLowerCase();
+
+      keywordsToFind.forEach(keyword => {
+        if (lowerCaseText.includes(keyword)) {
+          foundKeywords.push(keyword.charAt(0).toUpperCase() + keyword.slice(1)); // Capitaliza para exibição
+        }
+      });
+
+      return {
+        applicationId: applicationId,
+        candidateName: resumeData.candidateName,
+        // Para não retornar um JSON gigante, talvez você queira um trecho ou não retornar o texto completo
+        extractedText: extractedText.substring(0, 2000) + (extractedText.length > 2000 ? '...' : ''), // Ex: primeiros 2000 caracteres
+        foundKeywords: foundKeywords,
+      };
+    } catch (error) {
+      console.error(`Erro ao analisar PDF para aplicação ID ${applicationId}:`, error);
+      // Retorna uma análise parcial ou um erro específico se preferir
+      return {
+         applicationId: applicationId,
+         candidateName: resumeData.candidateName,
+         extractedText: "Erro ao processar o PDF.",
+         foundKeywords: []
+      };
+    }
+  }
 }
