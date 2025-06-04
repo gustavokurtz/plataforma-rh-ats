@@ -18,9 +18,9 @@ export class CreateJobApplicationDto {
   @IsString({ message: 'O telefone deve ser uma string válida' })
   candidatePhone?: string;
 
-  @IsOptional()
-  @IsUrl({}, { message: 'O currículo deve ser uma URL válida' })
-  candidateResume?: string;
+  // @IsOptional()
+  // @IsUrl({}, { message: 'O currículo deve ser uma URL válida' })
+  // candidateResume?: string;
 }
 
 export class UpdateJobApplicationDto {
@@ -36,7 +36,8 @@ export interface JobApplicationResponseDto {
   candidateName: string;
   candidateEmail: string;
   candidatePhone?: string;
-  candidateResume?: string;
+  // candidateResume?: string; // REMOVA OU COMENTE ESTA LINHA
+  resumeDownloadUrl?: string; // ADICIONE ESTA LINHA para a URL de download
   appliedAt: Date;
   updatedAt: Date;
 }
