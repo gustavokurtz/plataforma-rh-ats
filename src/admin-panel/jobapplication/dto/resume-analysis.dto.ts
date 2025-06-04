@@ -1,11 +1,9 @@
-// Em algum lugar como src/job-application/dto/resume-analysis.dto.ts
 export class ResumeAnalysisDto {
   applicationId: number;
   candidateName: string;
-  extractedText?: string; // Texto completo ou um trecho
-  foundKeywords?: string[];
-  // Você pode adicionar mais campos simples aqui, como:
-  // wordCount?: number;
-  // possibleEmail?: string;
-  // possiblePhone?: string;
+  aiSummary?: string;
+  aiIdentifiedSkills?: string; // Pode ser uma string longa ou você pode tentar parsear para array
+  aiSuggestedRoles?: string; // Pode ser uma string longa ou você pode tentar parsear para array
+  originalExtractedText?: string; // Opcional, para referência ou debug
+  error?: string; // Para reportar erros no processo
 }
