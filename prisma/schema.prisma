@@ -31,7 +31,7 @@ model Candidate {
   name         String
   email        String         @unique
   phone        String?
-  resume       String?        // URL or path to resume file
+  resume       Bytes?        // URL or path to resume file
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   applications JobApplication[]
@@ -51,7 +51,7 @@ model JobApplication {
   candidateName    String    // Mantemos o nome usado na aplicação
   candidateEmail   String    // Mantemos o email usado na aplicação
   candidatePhone   String?   // Opcional
-  candidateResume  String?   // Opcional
+  candidateResume  Bytes?   // Opcional
 
   @@unique([jobId, candidateId]) // Prevent duplicate applications
 }
