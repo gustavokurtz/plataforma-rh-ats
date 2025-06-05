@@ -19,8 +19,6 @@ export class AuthMiddleware implements NestMiddleware {
       // Esta regex corresponderá a /jobs/get-job/ seguido por um ou mais dígitos.
       { pathPattern: /^\/jobs\/get-job\/\d+$/, method: 'GET' },
       // Adicione aqui outras rotas que devam ser públicas.
-      // Ex: Se a rota raiz do AppController @Get('cu') também devesse ser pública:
-      // { path: '/cu', method: 'GET' } 
     ];
 
     // Verifica se a requisição atual corresponde a alguma rota pública

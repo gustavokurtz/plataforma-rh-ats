@@ -1,11 +1,6 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateJobApplicationDto } from './dto/job-application-dto';
-// Certifique-se de que o caminho para Prisma está correto ou use '@prisma/client'
-// Se 'generated/prisma' for o output do seu 'prisma generate', está ok.
-// Senão, geralmente é importado como:
-// import { Prisma, JobApplication, Candidate } from '@prisma/client';
-import { Prisma } from 'generated/prisma'; // Se este for o seu output do client Prisma
 import * as pdfParse from 'pdf-parse';
 import OpenAI from 'openai';
 import { ResumeAnalysisDto } from './dto/resume-analysis.dto';

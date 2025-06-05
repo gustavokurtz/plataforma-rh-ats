@@ -1,13 +1,13 @@
 import {
   Body, Controller, Post, UploadedFile, UseInterceptors,
-  ParseFilePipe, FileTypeValidator, Get, Param, Res, // Adicione Get, Param, Res
-  NotFoundException, ParseIntPipe // Adicione NotFoundException, ParseIntPipe
+  ParseFilePipe, FileTypeValidator, Get, Param, Res, 
+  NotFoundException, ParseIntPipe 
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JobapplicationService } from './jobapplication.service';
 import { CreateJobApplicationDto, JobApplicationResponseDto } from './dto/job-application-dto';
-import { Express, Response } from 'express'; // Importe Response de express
-import { ResumeAnalysisDto } from './dto/resume-analysis.dto'; // Importe seu DTO
+import { Express, Response } from 'express'; 
+import { ResumeAnalysisDto } from './dto/resume-analysis.dto'; 
 
 
 @Controller('job-application') // Se sua API tiver um prefixo global como /api, a URL final será /api/job-application

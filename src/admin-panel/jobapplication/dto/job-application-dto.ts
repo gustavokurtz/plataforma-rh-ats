@@ -36,8 +36,7 @@ export interface JobApplicationResponseDto {
   candidateName: string;
   candidateEmail: string;
   candidatePhone?: string;
-  // candidateResume?: string; // REMOVA OU COMENTE ESTA LINHA
-  resumeDownloadUrl?: string; // ADICIONE ESTA LINHA para a URL de download
+  resumeDownloadUrl?: string; 
   appliedAt: Date;
   updatedAt: Date;
 }
