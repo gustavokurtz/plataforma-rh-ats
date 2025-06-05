@@ -1,6 +1,6 @@
 import { CreateJobDto, UpdateJobDto } from './dto/job-dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Candidate, Job, JobApplication } from 'generated/prisma';
+import { Candidate, Job, JobApplication } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 
