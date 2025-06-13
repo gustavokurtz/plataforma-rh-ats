@@ -15,6 +15,11 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
+            # Carrega o NVM para encontrar os comandos npm e pm2
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+            # Continua com os comandos de deploy
             cd /var/www/plataforma-rh-ats
             git pull origin master
             npm install
